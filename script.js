@@ -6,94 +6,101 @@ function Question(questionText, options, correctOption){
 
 }
 
+Question.prototype.optionCheck = function(answer) {
+    return answer == this.correctOption
+}
+
 let questionList = [
-    question1 = new Question("1Lorem ipsum dolor sit amet.", {"A":"Lorem amet conpis12312icing elit.","B":"Lorem ipsum dolor sit amet consectetur adipisicing.","C":"Lorem ipsum dolor sit."},"A"),
+    question1 = new Question("Hangisi dünya üzerinde en fazla konuşulan dillerden biridir?", {"A":"İngilizce","B":"Mandarin Çincesi","C":"İspanyolca","D":"Türkçe"},"A"),
     
-    question2 = new Question("2Lorem ipsum dolor sit amet.", {"A":"2Lorem amet conpisicing elit.","B":"2Lorem ipsum dolor sit amet consectetur adipisicing.","C":"2Lorem ipsum dolor sit."},"A"),
+    question2 = new Question("Hangisi bir yıldızın içerdiği elementlerin nihai aşamasıdır?", {"A":"Karbon","B":"Demir","C":"Helyum"},"B"),
     
-    question3 = new Question("3Lorem ipsum dolor sit amet.", {"A":"3Lorem amet conpisicing elit.","B":"3Lorem ipsum dolor sit amet consectetur adipisicing.","C":"3Lorem ipsum dolor sit."},"A"),
+    question3 = new Question("Bir doğal sayı dizisi olan Fibonacci dizisinde, her sayı önceki iki sayının toplamıdır (ilk iki sayı 1 ve 1'dir). Fibonacci dizisindeki 10. sayı nedir?", {"A":"34","B":"55","C":"87"},"B"),
     
     question4 = new Question("0 Çift sayıdır" , {A:"Doğru", B:"Yanlış"} , "A")
     ]
 
 
+function Quiz(questionList){
+    this.questionList = questionList;
+    this.questionIndex = 0;
+}
+
+Quiz.prototype.callQuestion = function(){
+    return this.questionList[this.questionIndex];
+}
+
+
+const optionList = document.querySelector('.quiz-optionList');  
+
+function showQuestion(question){
+    let questionTXT = `<p class="quiz-question-text">${question.questionText}</p>`;
+    
+    let options = '';
+    
+    for (let ans in question.options){
+        options +=
+        `
+        <div class="quiz-option">
+            <div class="quiz-option-content">
+                <span ><b>${ans}</b>:</span>
+                <p>${question.options[ans]}</p>
+            </div>
+        </div>
+    
+        
+        `
+    };
+
+    const question_text = document.querySelector('.quiz-question-text'); 
+    question_text.innerHTML  = questionTXT;
+
+    optionList.innerHTML = options;
+
+    const option = optionList.querySelectorAll(".quiz-option");
+    console.log(option);
+
+    for (let opt of option){
+        opt.setAttribute("onclick","optionSelected(this)")
+    };
+}
+
+function optionSelected(option){
+    let answer = option.querySelector("span b").textContent;
+    console.log(answer);
+
+    let question = quiz.callQuestion();
+
+    if (question.optionCheck(answer)){
+        option.classList.add("correct");
+    }else{
+        option.classList.add("incorrect");
+    }
+}
+
+const quiz = new Quiz(questionList);
+
 document.querySelector('.btn-start').addEventListener('click',function(){
-    console.log(questionList[0])
     document.querySelector('.quiz-box').classList.add('display')
-    document.querySelector('.card-body').innerHTML = `   <div class="quiz-question">
-    <p class="quiz-question-text">${questionList[0].questionText}</p>
-    <div class="quiz-optionList">
-        <div class="quiz-option">
-        <div class="quiz-option-content">
-            <span >${Object.keys(questionList[0].options)[0]}:</span>
-            <p>${questionList[0].options.A}</p>
-        </div>
-        </div>
-
-        <div class="quiz-option correct ">
-            <div class="quiz-option-content">
-                <span >B:</span>
-                <p>Lorem amet conpisicing elit.</p>
-            </div>
-            <i class="fa fa-lg fa-check"></i>
-        </div>
-        
-        <div class="quiz-option incorrect">
-            <div class="quiz-option-content">
-                <span >C:</span>
-                <p>Lorem amet conpisicing elit.</p>
-            </div>
-            <i class="fa  fa-x"></i>
-        </div>
-        <div class="quiz-option">
-            <div class="quiz-option-content">
-                <span >D:</span>
-                <p>Lorem amet conpisicing elit.</p>
-            </div>
-            <i></i>
-        </div>
-    </div>
-</div>`
-
+    
+    showQuestion(quiz.callQuestion());
+    
 });
-let i = 0; 
+
 document.querySelector('.btn-next').addEventListener('click',function(){
-    i = i +1
-    console.log(questionList[i])
-    console.log(i)
-    document.querySelector('.card-body').innerHTML = `   <div class="quiz-question">
-    <p class="quiz-question-text">${questionList[i].questionText}</p>
-    <div class="quiz-optionList">
-        <div class="quiz-option">
-        <div class="quiz-option-content">
-            <span >${Object.keys(questionList[i].options)[i]}:</span>
-            <p>${questionList[i].options.A}</p>
-        </div>
-        </div>
 
-        <div class="quiz-option correct ">
-            <div class="quiz-option-content">
-                <span >B:</span>
-                <p>Lorem amet conpisicing elit.</p>
-            </div>
-            <i class="fa fa-lg fa-check"></i>
-        </div>
-        
-        <div class="quiz-option incorrect">
-            <div class="quiz-option-content">
-                <span >C:</span>
-                <p>Lorem amet conpisicing elit.</p>
-            </div>
-            <i class="fa  fa-x"></i>
-        </div>
-        <div class="quiz-option">
-            <div class="quiz-option-content">
-                <span >D:</span>
-                <p>Lorem amet conpisicing elit.</p>
-            </div>
-            <i></i>
-        </div>
-    </div>
-</div>`
+    if (quiz.questionList.length-1 > quiz.questionIndex) {
+        quiz.questionIndex += 1;
+        showQuestion(quiz.callQuestion());
+
+    }
+    else { 
+        console.log("Quiz Bitti!");
+        let endQuizText =  `<p class="quiz-question-text">Quiz Bitti!</p>`;
+
+    }
+
 
 });
+
+

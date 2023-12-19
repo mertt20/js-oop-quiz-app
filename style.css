@@ -12,9 +12,12 @@ body{
 
 }
 
-.display{
+.quiz-box.display {
     opacity: 1!important;
-    pointer-events: all!important;
+    pointer-events: auto!important;
+    transform: translate(-50%,-50%) scale(1);
+    transition: all .3s ease;
+
 }
 .quiz-box{
     width: 1000px;
@@ -22,6 +25,9 @@ body{
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     opacity: 0;
     pointer-events: none;
+    transform: translate(50%,50%) scale(0.7);
+
+
 }
 
 .quiz-option{
