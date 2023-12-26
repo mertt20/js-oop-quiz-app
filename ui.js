@@ -1,7 +1,10 @@
 function UI() {
     this.btn_start = document.querySelector(".btn-start");
     this.btn_next = document.querySelector(".btn-next");
+    this.btn_replay = document.querySelector(".btn-reply");
+    this.btn_quit = document.querySelector(".btn-quit");
     this.quiz_box = document.querySelector('.quiz-box');
+    this.score_box = document.querySelector('.score-box');
     this.quiz_index = document.querySelector('#quizindex');
     this.option_list = document.querySelector('.quiz-optionList'); 
     this.question_text = document.querySelector('.quiz-question-text');
@@ -34,13 +37,17 @@ UI.prototype.showQuestion = function(question){
     this.option_list.innerHTML = options;
 
     const option = this.option_list.querySelectorAll(".quiz-option");
-    console.log(option);
 
     for (let opt of option){
         opt.setAttribute("onclick","optionSelected(this)")
     };
 
-    console.log(quiz.questionIndex+1);
 
     this.quiz_index.innerHTML = `<span class="quiz-questionIndex bg-warning text-dark p-2 border border-dark rounded">${quiz.questionIndex+1}/${questionList.length}</span>`;
+}
+
+UI.prototype.showScore = function(sum_question, sum_correct){
+    let score = (sum_correct/sum_question)*100;
+    let tag = `<p>Puanınız: <span>${score}</span></p>`;
+    document.querySelector(".score-text").innerHTML = tag;
 }

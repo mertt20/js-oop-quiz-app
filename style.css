@@ -2,14 +2,16 @@ body{
     background-color: #dfdfdf!important;
 }
 .quiz-box,
-.center{
-    position: absolute;
+.center,
+.score-box{
+    position: absolute!important;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
-.btn-start{
-
+.btn-start.display-none{
+    opacity: 0;
+    pointer-events: none;
 }
 
 .btn-next{
@@ -112,6 +114,56 @@ body{
 }
 
 .quiz-box .card-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+ /* score box  */
+
+.score-box.display {
+    opacity: 1!important;
+    pointer-events: auto!important;
+    transform: translate(-50%,-50%) scale(1);
+    transition: all .2s ease-in!important;
+
+}
+.score-box {
+    width: 1000px;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    
+    border: 1px solid rgb(0, 0, 0)!important;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    
+    
+    
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%,-50%) scale(0.7);
+
+
+} 
+
+.score-box .icon{
+    font-size: 90px;
+    color: goldenrod;;
+    margin-bottom: 1rem;
+  
+}
+
+.score-text{
+    font-size: 3.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-align: center;
+
+}
+
+.score-box .buttons{
+    width: 40%;
     display: flex;
     justify-content: space-between;
     align-items: center;
