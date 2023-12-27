@@ -1,6 +1,12 @@
 const ui = new UI();
 
+const quiz = new Quiz(questionList);
+
+
+// Functions
 function optionSelected(option){
+    clearInterval(counter);
+    clearInterval(time_line_counter);
     let answer = option.querySelector("span b").textContent;
     let question = quiz.callQuestion();
     
@@ -21,10 +27,55 @@ function optionSelected(option){
 
     ui.btn_next.classList.add("display");
 }
+let counter
+function timer(time){
+    counter = setInterval(timerCount,1000);
+    function timerCount(){
+        ui.timer_text.textContent = time;    
+        time--;
+        if (time < 0){
+            clearInterval(counter);
+            ui.btn_next.classList.add("display");
+            for (let opt of ui.option_list.children){
+                if (quiz.callQuestion().optionCheck(opt.querySelector('span b').textContent)){
+                    opt.classList.add('correct');
+                    opt.insertAdjacentHTML("beforeend",ui.correct_icon);
 
-const quiz = new Quiz(questionList);
+                }
+                opt.classList.add('disabled');
+            }
+        }
+    }
+}
+let time_line_counter;
+function timerLine(time){
+    
+    let line_width = 0; 
+
+    time_line_counter = setInterval(timer_line_interval,1000);
+
+    function timer_line_interval(){
+        
+        line_width +=  1 / time*10 
+        console.log(line_width);
+        ui.time_line.style.width = line_width + 'px';
+        if (line_width >= 997){
+            clearInterval(time_line_counter);
+            ui.time_line.style.width = 997 + 'px';
+
+        }
+    }
+}
+
+
+
+// Buttons
 
 ui.btn_start.addEventListener('click',function(){
+    clearInterval(counter);
+    clearInterval(time_line_counter);
+    timerLine(10);
+    timer(10    );
     ui.quiz_box.classList.add('display')
     ui.btn_start.classList.add('display-none')
     ui.showQuestion(quiz.callQuestion());
@@ -32,6 +83,10 @@ ui.btn_start.addEventListener('click',function(){
 });
 
 ui.btn_next.addEventListener('click',function(){
+    clearInterval(counter);
+    clearInterval(time_line_counter);
+    timerLine(10);
+    timer(10);
     ui.btn_next.classList.remove('display');
     if (quiz.questionList.length-1 > quiz.questionIndex) {
         quiz.questionIndex += 1;

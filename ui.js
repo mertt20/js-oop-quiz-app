@@ -5,6 +5,8 @@ function UI() {
     this.btn_quit = document.querySelector(".btn-quit");
     this.quiz_box = document.querySelector('.quiz-box');
     this.score_box = document.querySelector('.score-box');
+    this.timer_text = document.querySelector('.timer-text');
+    this.time_line = document.querySelector('.time-line'); 
     this.quiz_index = document.querySelector('#quizindex');
     this.option_list = document.querySelector('.quiz-optionList'); 
     this.question_text = document.querySelector('.quiz-question-text');
